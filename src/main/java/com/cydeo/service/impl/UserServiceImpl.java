@@ -1,8 +1,8 @@
 package com.cydeo.service.impl;
 
-import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
-import com.cydeo.service.RoleService;
+import com.cydeo.mapper.UserMapper;
+import com.cydeo.repository.UserRepository;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -10,36 +10,38 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl extends AbstractMapService<UserDTO,String>implements UserService {
+public class UserServiceImpl implements UserService {
+    UserRepository userRepository;
 
+    UserMapper userMapper;
 
-    @Override
-    public UserDTO save(UserDTO object) {
-        return super.save(object.getUsername(),object);
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public List<UserDTO> findAll() {
-        return super.findAll();
+    public List<UserDTO> listAllUsers() {
+        return userRepository.findAll().stream().map(userMapper::convertToDto).collect(Collectors.toList());
     }
 
     @Override
-    public void deleteById(String id) {
-        super.deleteById(id);
+    public UserDTO findByUserName(String username) {
+        return null;
     }
 
     @Override
-    public void update(UserDTO object) {
-        super.update(object.getUsername(),object);
+    public void save(UserDTO dto) {
+
     }
 
     @Override
-    public UserDTO findById(String id) {
-        return super.findById(id);
+    public UserDTO update(UserDTO dto) {
+        return null;
     }
 
     @Override
-    public List<UserDTO> findManagers() {
-        return findAll().stream().filter(user->user.getRole().getDescription().equals("Manager")).collect(Collectors.toList());
+    public void deleteByUserName(String username) {
+
     }
 }
