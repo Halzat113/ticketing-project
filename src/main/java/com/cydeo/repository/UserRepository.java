@@ -1,5 +1,6 @@
 package com.cydeo.repository;
 
+import com.cydeo.entity.Role;
 import com.cydeo.entity.User;
 import com.cydeo.service.UserService;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByUserName(String username);
     @Transactional //Use this annotation for delete and persist
     void deleteByUserName(String username);
+    @Query("Select u From User u Where u.role.id=2")
+    List<User>findAllManagers();
 }

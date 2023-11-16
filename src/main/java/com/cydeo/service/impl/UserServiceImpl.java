@@ -60,4 +60,9 @@ public class UserServiceImpl implements UserService {
         user.setIsDeleted(true);
         userRepository.save(user);
     }
+
+    @Override
+    public List<UserDTO> listAllMangers() {
+      return userRepository.findAllManagers().stream().map(userMapper::convertToDto).collect(Collectors.toList());
+    }
 }
