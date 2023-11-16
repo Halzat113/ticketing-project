@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    RoleRepository roleRepository;
-    RoleMapper roleMapper;
+    private final RoleRepository roleRepository;
+    private final RoleMapper roleMapper;
 
     public RoleServiceImpl(RoleRepository roleRepository,RoleMapper roleMapper) {
         this.roleRepository = roleRepository;
@@ -27,7 +27,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO findById(Long id) {
-//        return roleMapper.convertToDto(roleRepository.findById(id).get());
-        return null;
+        return roleMapper.convertToDto(roleRepository.findById(id).orElseThrow());
     }
 }
