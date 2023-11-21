@@ -13,6 +13,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByUserName(String username);
     @Transactional //Use this annotation for delete and persist
     void deleteByUserName(String username);
-    @Query("Select u From User u Where u.role.id=2")
-    List<User>findAllManagers();
+    List<User> findAllByRoleDescriptionIgnoreCase(String description);
 }
