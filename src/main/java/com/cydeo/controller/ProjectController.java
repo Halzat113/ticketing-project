@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
@@ -59,13 +61,13 @@ public class ProjectController {
         projectService.complete(projectCode);
         return "redirect:/project/create";
     }
-//
-//    @GetMapping("/status")
-//    public String getProjectStatus(Model model){
-//        UserDTO manager = userService.findById("john@cydeo.com");
-//        model.addAttribute("projects",projectService.getCountedListOfProjectDto(manager));
-//        return "/manager/project-status";
-//    }
+
+    @GetMapping("/status")
+    public String getProjectStatus(Model model){
+        List<ProjectDTO> projects = projectService.listAllProjectDetails();
+        model.addAttribute("projects",projects);
+        return "/manager/project-status";
+    }
 //    @GetMapping("/manager/complete/{projectCode}")
 //    public String managerCompleteProject(@PathVariable("projectCode") String projectCode) {
 //        projectService.complete(projectCode);

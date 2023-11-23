@@ -53,4 +53,14 @@ public class TaskServiceImpl implements TaskService {
         task.setIsDeleted(true);
         taskRepository.save(task);
     }
+
+    @Override
+    public int totalNonCompletedTask(String code) {
+       return taskRepository.totalNonCompletedTask(code);
+    }
+
+    @Override
+    public int totalCompletedTask(String code) {
+        return taskRepository.totalCompletedTask(code);
+    }
 }
