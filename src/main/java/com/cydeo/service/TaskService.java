@@ -1,5 +1,6 @@
 package com.cydeo.service;
 
+import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface TaskService {
     void delete(Long id);
     int totalNonCompletedTask(String code);
     int totalCompletedTask(String code);
+    void deleteByProject(ProjectDTO projectDTO);
 }
