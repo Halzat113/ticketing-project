@@ -2,6 +2,7 @@ package com.cydeo.repository;
 
 import com.cydeo.entity.Project;
 import com.cydeo.entity.Task;
+import com.cydeo.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,4 +16,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     int totalCompletedTask(String code);
 
     List<Task>findAllByProject(Project project);
+
+    List<Task> findAllByTaskStatusIsNot(Status status);
+
+    List<Task> findAllByAssignedEmployeeUserName(String username);
+
+    List<Task> findAllByTaskStatus(Status status);
 }

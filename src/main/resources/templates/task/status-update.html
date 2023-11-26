@@ -30,13 +30,16 @@
                                 </header>
                                 <div class="panel-body">
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form>
+<!--                                    TODO html update-->
+                                    <form th:object="${task}"
+                                          th:action="@{/task/employee/update/{id}(id=${task.id})}" method="post">
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Project</label>
-                                                    <select name="project" class="custom-select" disabled>
-                                                        <option></option>
+                                                    <select th:field="*{project}" name="project" class="custom-select">
+                                                        <option th:value="${task.project.projectCode}"
+                                                        th:text="${task.project.projectCode}" disabled></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -46,7 +49,7 @@
                                                 <div class="form-group">
                                                     <label>Assigned Employee</label>
                                                     <select name="assignedemployee" class="custom-select" disabled>
-                                                        <option></option>
+                                                        <option th:text="${task.assignedEmployee.firstname+' '+task.assignedEmployee.lastname}"></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -57,8 +60,8 @@
                                                     <div class="col-sm-12 col-md-12 col-xs-12">
                                                         <div class="form-group">
                                                             <label for="tasksubject">Task Subject</label>
-                                                            <input id="tasksubject" type="text" class="form-control"
-                                                                   aria-describedby="inputGroupPrepend" disabled/>
+                                                            <input th:field="*{taskSubject}" id="tasksubject" type="text" class="form-control"
+                                                                   aria-describedby="inputGroupPrepend" readonly/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -70,7 +73,7 @@
                                                     <div class="col-sm-12 col-md-12 col-xs-12">
                                                         <div class="form-group">
                                                             <label>Task Detail</label>
-                                                            <textarea id="taskdetail" class="form-control" rows="3"
+                                                            <textarea th:field="*{taskDetail}" id="taskdetail" class="form-control" rows="3"
                                                                       aria-describedby="inputGroupPrepend"
                                                                       disabled></textarea>
                                                         </div>
@@ -82,8 +85,10 @@
                                             <div class="col-sm-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Status</label>
-                                                    <select name="taskStatus" class="custom-select">
-                                                        <option></option>
+                                                    <select name="role" class="custom-select" id="role" th:field="*{taskStatus}">
+                                                        <option th:value="Open" value="1">Open</option>
+                                                        <option th:value="IN_PROGRESS" value="2">In Progress</option>
+                                                        <option th:value="COMPLETE" value="3">Complete</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -125,12 +130,12 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <tr th:each="task:${tasks}">
+                                                <td th:text="${task.project.projectCode}"></td>
+                                                <td th:text="${task.taskSubject}"></td>
+                                                <td th:text="${task.assignedEmployee.firstname+' '+task.assignedEmployee.lastname}"></td>
+                                                <td  th:text="${#temporals.format(task.assignedDate,'MM/dd/yyyy')}"></td>
+                                                <td th:text="${task.taskStatus.value}"></td>
                                                 <td>
                                                     <a href="#" class="btn btn-warning rounded-0">Update</a>
                                                 </td>
