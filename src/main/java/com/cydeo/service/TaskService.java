@@ -21,4 +21,6 @@ public interface TaskService {
     List<TaskDTO> listAllTaskByStatusIsNot(Status status);
 
     void updateStatus(TaskDTO dto);
+
+    List<TaskDTO> listAllTasksByStatus(Status status);
 }

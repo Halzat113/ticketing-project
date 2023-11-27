@@ -102,7 +102,6 @@ public class TaskServiceImpl implements TaskService {
             taskRepository.save(task.get());
         }
     }
-
     @Override
     public List<TaskDTO> listAllTasksByStatus(Status status) {
         List<TaskDTO> tasks = findAllTasksByEmployee("john@employee.com");
