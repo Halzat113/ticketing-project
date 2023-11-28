@@ -11,6 +11,7 @@ import com.cydeo.repository.ProjectRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,6 +82,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
         //admin@admin.com
+        //TODO simplify
         UserDTO currentUserDTO = userService.findByUserName("harold@manager.com");
         User user = userMapper.convertToEntity(currentUserDTO);
         List<Project> list = projectRepository.findAllByAssignedManager(user);
@@ -90,5 +92,10 @@ public class ProjectServiceImpl implements ProjectService {
             obj.setCompleteTaskCounts(taskService.totalCompletedTask(project.getProjectCode()));
             return obj;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProjectDTO> listAllProjectsByManager(User user) {
+        return projectRepository.findAllByAssignedManager(user).stream().map(projectMapper::convertToDto).collect(Collectors.toList());
     }
 }

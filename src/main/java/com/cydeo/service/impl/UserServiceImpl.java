@@ -4,7 +4,10 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
+import com.cydeo.service.ProjectService;
+import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +18,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
+    private final ProjectService projectService;
+    private final TaskService taskService;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,@Lazy ProjectService projectService, TaskService taskService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -57,8 +65,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(String username){
         User user = userRepository.findByUserName(username);
-        user.setIsDeleted(true);
-        userRepository.save(user);
+        if(checkIfUserCanBeDeleted(user)) {
+            user.setIsDeleted(true);
+            user.setUserName(user.getUserName()+"-"+user.getId());
+            userRepository.save(user);
+        }
+
+    }
+
+    private boolean checkIfUserCanBeDeleted(User user){
+        switch (user.getRole().getDescription()){
+            case "Manager":
+               return projectService.listAllProjectsByManager(user).size()==0;
+            case "Employee":
+                return taskService.listAllTasksByEmployee(user).size()==0;
+            default:
+                return true;
+        }
     }
 
     @Override

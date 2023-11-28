@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class User extends BaseEntity{
     private String firstname;
     private String lastname;
+    @Column(unique = true, nullable = false)
     private String userName;
     private String password;
     private boolean enabled;

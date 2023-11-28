@@ -3,6 +3,7 @@ package com.cydeo.service.impl;
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.entity.Task;
+import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.mapper.TaskMapper;
@@ -107,13 +108,17 @@ public class TaskServiceImpl implements TaskService {
         List<TaskDTO> tasks = findAllTasksByEmployee("john@employee.com");
         return tasks.stream().filter(t->t.getTaskStatus().equals(status)).collect(Collectors.toList());
     }
+    @Override
+    public List<TaskDTO> listAllTasksByEmployee(User user) {
+        return findAllTasksByEmployee(user.getUserName());
+    }
 
-    public List<TaskDTO> listAllByProject(ProjectDTO dto){
+    private List<TaskDTO> listAllByProject(ProjectDTO dto){
         List<Task> tasks = taskRepository.findAllByProject(projectMapper.convertToEntity(dto));
         return tasks.stream().map(taskMapper::convertToDto).collect(Collectors.toList());
     }
 
-    public List<TaskDTO> findAllTasksByEmployee(String username){
+    private List<TaskDTO> findAllTasksByEmployee(String username){
         return taskRepository.findAllByAssignedEmployeeUserName(username).stream().map(taskMapper::convertToDto)
                 .collect(Collectors.toList());
     }
