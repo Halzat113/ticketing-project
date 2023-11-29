@@ -9,6 +9,7 @@ import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.mapper.TaskMapper;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.TaskService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -91,7 +92,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> listAllTaskByStatusIsNot(Status status) {
-        List<TaskDTO> tasks = findAllTasksByEmployee("john@employee.com");
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<TaskDTO> tasks = findAllTasksByEmployee(username);
         return tasks.stream().filter(t->!t.getTaskStatus().equals(status)).collect(Collectors.toList());
     }
 
@@ -105,7 +107,8 @@ public class TaskServiceImpl implements TaskService {
     }
     @Override
     public List<TaskDTO> listAllTasksByStatus(Status status) {
-        List<TaskDTO> tasks = findAllTasksByEmployee("john@employee.com");
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<TaskDTO> tasks = findAllTasksByEmployee(username);
         return tasks.stream().filter(t->t.getTaskStatus().equals(status)).collect(Collectors.toList());
     }
     @Override

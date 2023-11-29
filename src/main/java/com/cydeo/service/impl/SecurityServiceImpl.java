@@ -1,6 +1,6 @@
 package com.cydeo.service.impl;
 
-import com.cydeo.common.UserPrinciple;
+import com.cydeo.entity.common.UserPrinciple;
 import com.cydeo.entity.User;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.SecurityService;

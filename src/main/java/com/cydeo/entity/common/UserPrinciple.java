@@ -1,4 +1,4 @@
-package com.cydeo.common;
+package com.cydeo.entity.common;
 
 import com.cydeo.entity.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -53,5 +53,9 @@ public class UserPrinciple implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.user.isEnabled();
+    }
+
+    public Long getId(){
+        return this.user.getId();
     }
 }
