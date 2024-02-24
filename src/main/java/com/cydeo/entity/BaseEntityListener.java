@@ -32,7 +32,7 @@ public class BaseEntityListener extends AuditingEntityListener {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         baseEntity.lastUpdateDateTime = LocalDateTime.now();
-        baseEntity.lastUpdateUserId = 1L;
+        //baseEntity.lastUpdateUserId = 1L;
 
         if(authentication != null && !authentication.getName().equals("anonymousUser")){
             Object principal = authentication.getPrincipal();
